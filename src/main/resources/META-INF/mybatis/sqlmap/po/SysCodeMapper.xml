@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebau.exam.po.SysCodePo">
+	<resultMap id="BaseResultMap" type="cn.edu.hebau.exam.po.SysCodePo">
+		<id column="id" property="id" />
+		<result column="code_id" property="codeId" />
+		<result column="value" property="value" />
+		<result column="text" property="text" />
+		<result column="leaf" property="leaf" />
+		<result column="parent_id" property="parentId" />
+		<result column="grade" property="grade" />
+		<result column="order_no" property="orderNo" />
+		<result column="remark1" property="remark1" />
+	</resultMap>
+
+	<sql id="Table_Name">
+		t_sys_code
+	</sql>
+
+	<sql id="Base_Column">
+		id,
+		code_id,
+		`value`,
+		text,
+		leaf,
+		parent_id,
+		grade,
+		order_no,
+		remark1
+	</sql>
+
+	<sql id="Base_Where">
+		<trim suffixOverrides="AND">
+		<if test="id != null">
+			id= #{id}
+	           AND 
+		</if>
+		<if test="codeId != null">
+			code_id= #{codeId}
+	           AND 
+		</if>
+		<if test="value != null">
+			`value`= #{value}
+	           AND 
+		</if>
+		<if test="text != null">
+			text= #{text}
+	           AND 
+		</if>
+		<if test="leaf != null">
+			leaf= #{leaf}
+	           AND 
+		</if>
+		<if test="parentId != null">
+			parent_id= #{parentId}
+	           AND 
+		</if>
+		<if test="grade != null">
+			grade &lt;= #{grade}
+	           AND 
+		</if>
+		<if test="orderNo != null">
+			order_no= #{orderNo}
+	           AND 
+		</if>
+		<if test="remark1 != null">
+			remark1= #{remark1}
+		</if>
+		</trim>
+	</sql>
+	
+    <sql id="Base_Select">
+			select
+		<include refid="Base_Column" />
+		from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</sql>
+
+
+
+	<insert id="insert" >
+		insert into
+		<include refid="Table_Name" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		id,
+	</if>
+	<if test="codeId != null">
+		code_id,
+	</if>
+	<if test="value != null">
+		`value`,
+	</if>
+	<if test="text != null">
+		text,
+	</if>
+	<if test="leaf != null">
+		leaf,
+	</if>
+	<if test="parentId != null">
+		parent_id,
+	</if>
+	<if test="grade != null">
+		grade,
+	</if>
+	<if test="orderNo != null">
+		order_no,
+	</if>
+	<if test="remark1 != null">
+		remark1,
+	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		#{id},
+	</if>
+	<if test="codeId != null">
+		#{codeId},
+	</if>
+	<if test="value != null">
+		#{value},
+	</if>
+	<if test="text != null">
+		#{text},
+	</if>
+	<if test="leaf != null">
+		#{leaf},
+	</if>
+	<if test="parentId != null">
+		#{parentId},
+	</if>
+	<if test="grade != null">
+		#{grade},
+	</if>
+	<if test="orderNo != null">
+		#{orderNo},
+	</if>
+	<if test="remark1 != null">
+		#{remark1},
+	</if>
+		</trim>
+	</insert>
+
+	<update id="update" >
+		update
+		<include refid="Table_Name" />
+		<set>
+	<if test="id != null">
+		id=#{id},
+	</if>
+	<if test="codeId != null">
+		code_id=#{codeId},
+	</if>
+	<if test="value != null">
+		`value`=#{value},
+	</if>
+	<if test="text != null">
+		text=#{text},
+	</if>
+	<if test="leaf != null">
+		leaf=#{leaf},
+	</if>
+	<if test="parentId != null">
+		parent_id=#{parentId},
+	</if>
+	<if test="grade != null">
+		grade=#{grade},
+	</if>
+	<if test="orderNo != null">
+		order_no=#{orderNo},
+	</if>
+	<if test="remark1 != null">
+		remark1=#{remark1},
+	</if>
+		</set>
+		<where>
+		<trim prefix="(" suffix=")" suffixOverrides="AND">
+			id=#{id}
+			AND
+		</trim>
+		</where>
+	</update>
+
+	<update id="updateByEntity" >
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<if test="s.codeId != null">
+                    code_id=#{s.codeId},
+			</if>
+			<if test="s.value != null">
+                    `value`=#{s.value},
+			</if>
+			<if test="s.text != null">
+                    text=#{s.text},
+			</if>
+			<if test="s.leaf != null">
+                    leaf=#{s.leaf},
+			</if>
+			<if test="s.parentId != null">
+                    parent_id=#{s.parentId},
+			</if>
+			<if test="s.grade != null">
+                    grade=#{s.grade},
+			</if>
+			<if test="s.orderNo != null">
+                    order_no=#{s.orderNo},
+			</if>
+			<if test="s.remark1 != null">
+                    remark1=#{s.remark1}
+			</if>
+		</set>
+		<where> 
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+			<if test="w.id != null">
+                    id=#{w.id}
+                   AND 
+ 			</if>
+			<if test="w.codeId != null">
+                    code_id=#{w.codeId}
+                   AND 
+ 			</if>
+			<if test="w.value != null">
+                    `value`=#{w.value}
+                   AND 
+ 			</if>
+			<if test="w.text != null">
+                    text=#{w.text}
+                   AND 
+ 			</if>
+			<if test="w.leaf != null">
+                    leaf=#{w.leaf}
+                   AND 
+ 			</if>
+			<if test="w.parentId != null">
+                    parent_id=#{w.parentId}
+                   AND 
+ 			</if>
+			<if test="w.grade != null">
+                    grade=#{w.grade}
+                   AND 
+ 			</if>
+			<if test="w.orderNo != null">
+                    order_no=#{w.orderNo}
+                   AND 
+ 			</if>
+			<if test="w.remark1 != null">
+                    remark1=#{w.remark1}
+ 			</if>
+			</trim>
+		</where>
+	</update>
+
+	<delete id="delete" >
+		delete from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</delete>
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		select count(1) from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</select>
+
+	<select id="selectOne"  resultMap="BaseResultMap">
+	  <include refid="Base_Select" />
+	</select>
+
+	<select id="selectList"  resultMap="BaseResultMap">
+	    <include refid="Base_Select" />
+	</select>
+
+     <select id="selectForUpdate" resultMap="BaseResultMap" useCache="false">
+		 <include refid="Base_Select" />
+		for update
+	</select>
+
+	<select id="selectListAll" resultMap="BaseResultMap">
+		select
+		a.id,
+		a.code_id,
+		a.text,
+		a.leaf,
+		a.`value`,
+		a.parent_id,
+		a.order_no,
+		a.grade,
+		(CASE WHEN a.parent_id=0 then '根节点' ELSE b.text end ) remark1
+		from t_sys_code a LEFT JOIN t_sys_code b on a.parent_id=b.id
+		<where>
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+				<if test="id != null">
+					a.id= #{id}
+					AND
+				</if>
+				<if test="parentId != null">
+					a.parent_id= #{parentId}
+				</if>
+			</trim>
+		</where>
+	</select>
+	
+
+</mapper>

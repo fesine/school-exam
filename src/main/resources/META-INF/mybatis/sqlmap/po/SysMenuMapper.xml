@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebau.exam.po.SysMenuPo">
+	<resultMap id="BaseResultMap" type="cn.edu.hebau.exam.po.SysMenuPo">
+		<id column="id" property="id" />
+		<result column="menu_id" property="menuId" />
+		<result column="text" property="text" />
+		<result column="leaf" property="leaf" />
+		<result column="parent_id" property="parentId" />
+		<result column="order_no" property="orderNo" />
+		<result column="grade" property="grade" />
+		<result column="fun_view_xtype" property="funViewXtype" />
+		<result column="fun_controller" property="funController" />
+		<result column="fun_view_name" property="funViewName" />
+		<result column="icon_cls" property="iconCls" />
+		<result column="url" property="url" />
+		<result column="remark1" property="remark1" />
+		<result column="remark2" property="remark2" />
+		<result column="remark3" property="remark3" />
+	</resultMap>
+
+	<sql id="Table_Name">
+		t_sys_menu
+	</sql>
+
+	<sql id="Base_Column">
+		id,
+		menu_id,
+		text,
+		leaf,
+		parent_id,
+		order_no,
+		grade,
+		fun_view_xtype,
+		fun_controller,
+		fun_view_name,
+		icon_cls,
+		url,
+		remark1,
+		remark2,
+		remark3
+	</sql>
+
+	<sql id="Base_Where">
+		<trim suffixOverrides="AND">
+		<if test="id != null">
+			id= #{id}
+	           AND 
+		</if>
+		<if test="menuId != null">
+			menu_id= #{menuId}
+	           AND 
+		</if>
+		<if test="text != null">
+			text= #{text}
+	           AND 
+		</if>
+		<if test="leaf != null">
+			leaf= #{leaf}
+	           AND 
+		</if>
+		<if test="parentId != null">
+			parent_id= #{parentId}
+	           AND 
+		</if>
+		<if test="orderNo != null">
+			order_no= #{orderNo}
+	           AND 
+		</if>
+		<if test="grade != null">
+			grade &lt;= #{grade}
+	           AND 
+		</if>
+		<if test="funViewXtype != null">
+			fun_view_xtype= #{funViewXtype}
+	           AND 
+		</if>
+		<if test="funController != null">
+			fun_controller= #{funController}
+	           AND 
+		</if>
+		<if test="funViewName != null">
+			fun_view_name= #{funViewName}
+	           AND 
+		</if>
+		<if test="iconCls != null">
+			icon_cls= #{iconCls}
+	           AND 
+		</if>
+		<if test="url != null">
+			url= #{url}
+	           AND 
+		</if>
+		<if test="remark1 != null">
+			remark1= #{remark1}
+	           AND 
+		</if>
+		<if test="remark2 != null">
+			remark2= #{remark2}
+	           AND 
+		</if>
+		<if test="remark3 != null">
+			remark3= #{remark3}
+		</if>
+		</trim>
+	</sql>
+	
+    <sql id="Base_Select">
+			select
+		<include refid="Base_Column" />
+		from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</sql>
+
+
+
+	<insert id="insert" >
+		insert into
+		<include refid="Table_Name" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		id,
+	</if>
+	<if test="menuId != null">
+		menu_id,
+	</if>
+	<if test="text != null">
+		text,
+	</if>
+	<if test="leaf != null">
+		leaf,
+	</if>
+	<if test="parentId != null">
+		parent_id,
+	</if>
+	<if test="orderNo != null">
+		order_no,
+	</if>
+	<if test="grade != null">
+		grade,
+	</if>
+	<if test="funViewXtype != null">
+		fun_view_xtype,
+	</if>
+	<if test="funController != null">
+		fun_controller,
+	</if>
+	<if test="funViewName != null">
+		fun_view_name,
+	</if>
+	<if test="iconCls != null">
+		icon_cls,
+	</if>
+	<if test="url != null">
+		url,
+	</if>
+	<if test="remark1 != null">
+		remark1,
+	</if>
+	<if test="remark2 != null">
+		remark2,
+	</if>
+	<if test="remark3 != null">
+		remark3,
+	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		#{id},
+	</if>
+	<if test="menuId != null">
+		#{menuId},
+	</if>
+	<if test="text != null">
+		#{text},
+	</if>
+	<if test="leaf != null">
+		#{leaf},
+	</if>
+	<if test="parentId != null">
+		#{parentId},
+	</if>
+	<if test="orderNo != null">
+		#{orderNo},
+	</if>
+	<if test="grade != null">
+		#{grade},
+	</if>
+	<if test="funViewXtype != null">
+		#{funViewXtype},
+	</if>
+	<if test="funController != null">
+		#{funController},
+	</if>
+	<if test="funViewName != null">
+		#{funViewName},
+	</if>
+	<if test="iconCls != null">
+		#{iconCls},
+	</if>
+	<if test="url != null">
+		#{url},
+	</if>
+	<if test="remark1 != null">
+		#{remark1},
+	</if>
+	<if test="remark2 != null">
+		#{remark2},
+	</if>
+	<if test="remark3 != null">
+		#{remark3},
+	</if>
+		</trim>
+	</insert>
+
+	<update id="update" >
+		update
+		<include refid="Table_Name" />
+		<set>
+	<if test="id != null">
+		id=#{id},
+	</if>
+	<if test="menuId != null">
+		menu_id=#{menuId},
+	</if>
+	<if test="text != null">
+		text=#{text},
+	</if>
+	<if test="leaf != null">
+		leaf=#{leaf},
+	</if>
+	<if test="parentId != null">
+		parent_id=#{parentId},
+	</if>
+	<if test="orderNo != null">
+		order_no=#{orderNo},
+	</if>
+	<if test="grade != null">
+		grade=#{grade},
+	</if>
+	<if test="funViewXtype != null">
+		fun_view_xtype=#{funViewXtype},
+	</if>
+	<if test="funController != null">
+		fun_controller=#{funController},
+	</if>
+	<if test="funViewName != null">
+		fun_view_name=#{funViewName},
+	</if>
+	<if test="iconCls != null">
+		icon_cls=#{iconCls},
+	</if>
+	<if test="url != null">
+		url=#{url},
+	</if>
+	<if test="remark1 != null">
+		remark1=#{remark1},
+	</if>
+	<if test="remark2 != null">
+		remark2=#{remark2},
+	</if>
+	<if test="remark3 != null">
+		remark3=#{remark3},
+	</if>
+		</set>
+		<where>
+		<trim prefix="(" suffix=")" suffixOverrides="AND">
+			id=#{id}
+			AND
+		</trim>
+		</where>
+	</update>
+
+	<update id="updateByEntity" >
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<if test="s.menuId != null">
+                    menu_id=#{s.menuId},
+			</if>
+			<if test="s.text != null">
+                    text=#{s.text},
+			</if>
+			<if test="s.leaf != null">
+                    leaf=#{s.leaf},
+			</if>
+			<if test="s.parentId != null">
+                    parent_id=#{s.parentId},
+			</if>
+			<if test="s.orderNo != null">
+                    order_no=#{s.orderNo},
+			</if>
+			<if test="s.grade != null">
+                    grade=#{s.grade},
+			</if>
+			<if test="s.funViewXtype != null">
+                    fun_view_xtype=#{s.funViewXtype},
+			</if>
+			<if test="s.funController != null">
+                    fun_controller=#{s.funController},
+			</if>
+			<if test="s.funViewName != null">
+                    fun_view_name=#{s.funViewName},
+			</if>
+			<if test="s.iconCls != null">
+                    icon_cls=#{s.iconCls},
+			</if>
+			<if test="s.url != null">
+                    url=#{s.url},
+			</if>
+			<if test="s.remark1 != null">
+                    remark1=#{s.remark1},
+			</if>
+			<if test="s.remark2 != null">
+                    remark2=#{s.remark2},
+			</if>
+			<if test="s.remark3 != null">
+                    remark3=#{s.remark3}
+			</if>
+		</set>
+		<where> 
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+			<if test="w.id != null">
+                    id=#{w.id}
+                   AND 
+ 			</if>
+			<if test="w.menuId != null">
+                    menu_id=#{w.menuId}
+                   AND 
+ 			</if>
+			<if test="w.text != null">
+                    text=#{w.text}
+                   AND 
+ 			</if>
+			<if test="w.leaf != null">
+                    leaf=#{w.leaf}
+                   AND 
+ 			</if>
+			<if test="w.parentId != null">
+                    parent_id=#{w.parentId}
+                   AND 
+ 			</if>
+			<if test="w.orderNo != null">
+                    order_no=#{w.orderNo}
+                   AND 
+ 			</if>
+			<if test="w.grade != null">
+                    grade=#{w.grade}
+                   AND 
+ 			</if>
+			<if test="w.funViewXtype != null">
+                    fun_view_xtype=#{w.funViewXtype}
+                   AND 
+ 			</if>
+			<if test="w.funController != null">
+                    fun_controller=#{w.funController}
+                   AND 
+ 			</if>
+			<if test="w.funViewName != null">
+                    fun_view_name=#{w.funViewName}
+                   AND 
+ 			</if>
+			<if test="w.iconCls != null">
+                    icon_cls=#{w.iconCls}
+                   AND 
+ 			</if>
+			<if test="w.url != null">
+                    url=#{w.url}
+                   AND 
+ 			</if>
+			<if test="w.remark1 != null">
+                    remark1=#{w.remark1}
+                   AND 
+ 			</if>
+			<if test="w.remark2 != null">
+                    remark2=#{w.remark2}
+                   AND 
+ 			</if>
+			<if test="w.remark3 != null">
+                    remark3=#{w.remark3}
+ 			</if>
+			</trim>
+		</where>
+	</update>
+
+	<delete id="delete" >
+		delete from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</delete>
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		select count(1) from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</select>
+
+	<select id="selectOne"  resultMap="BaseResultMap">
+	  <include refid="Base_Select" />
+	</select>
+
+	<select id="selectList"  resultMap="BaseResultMap">
+	    <include refid="Base_Select" />
+	</select>
+
+	<select id="selectListAll"  resultMap="BaseResultMap">
+		select
+		a.id,
+		a.menu_id,
+		a.text,
+		a.leaf,
+		a.parent_id,
+		a.order_no,
+		a.grade,
+		a.fun_view_xtype,
+		a.fun_controller,
+		a.fun_view_name,
+		a.icon_cls,
+		a.url,
+		(CASE WHEN a.parent_id=0 then '根节点' ELSE b.text end ) remark1
+		from t_sys_menu a LEFT JOIN t_sys_menu b on a.parent_id=b.id
+		<where>
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+			<if test="id != null">
+				a.id= #{id}
+				AND
+			</if>
+			<if test="grade != null">
+				a.grade &lt;= #{grade}
+				AND
+			</if>
+			<if test="parentId != null">
+				a.parent_id= #{parentId}
+			</if>
+			</trim>
+		</where>
+	</select>
+
+     <select id="selectForUpdate" resultMap="BaseResultMap" useCache="false">
+		 <include refid="Base_Select" />
+		for update
+	</select>
+	
+
+</mapper>

@@ -18,7 +18,7 @@ public class SysUserPo extends BasePo {
 	public static final String ALIAS_USERNAME = "用户名";
 	public static final String ALIAS_PASSWORD = "密码";
 	public static final String ALIAS_NICK_NAME = "昵称";
-	public static final String ALIAS_TYPE = "权限类型  0: 普通管理员 1:权限管理员  2:超级管理员";
+	public static final String ALIAS_GRADE = "权限类型  0: 普通管理员 1:权限管理员  2:超级管理员";
 	public static final String ALIAS_EMAIL = "邮箱";
 	public static final String ALIAS_CELL = "手机号码";
 	public static final String ALIAS_CREATE_TIME = "创建时间";
@@ -43,9 +43,9 @@ public class SysUserPo extends BasePo {
      */ 	
 	private String nickName;
     /**
-     * 权限类型  0: 普通管理员 1:权限管理员  2:超级管理员       db_column: type 
+     * 权限类型  0: 普通管理员 1:权限管理员  2:超级管理员       db_column: grade 
      */ 	
-	private Integer type;
+	private Integer grade;
     /**
      * 邮箱       db_column: email 
      */ 	
@@ -101,12 +101,12 @@ public class SysUserPo extends BasePo {
 	}
 
 	
-	public Integer getType() {
-		return this.type;
+	public Integer getGrade() {
+		return this.grade;
 	}
 	
-	public void setType(Integer type) {
-		this.type = type;
+	public void setGrade(Integer grade) {
+		this.grade = grade;
 	}
 
 	

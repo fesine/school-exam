@@ -10,6 +10,7 @@ import com.fesine.commons.util.ResultUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,9 @@ public class SysUserController {
     @Autowired
     private SysUserService userService;
 
+    @Value("${user.password}")
+    private String password;
+
     @PostMapping("/user/login")
     public Result login(HttpServletRequest request, SysUserPo po) {
         Map<String, Object> map = new HashMap<>();
@@ -55,6 +59,7 @@ public class SysUserController {
             return ResultUtils.error(405, "用户名或密码错误!");
         }
         map.put("user", tempPo);
+        request.getSession().setAttribute("user", tempPo);
         return ResultUtils.success(map);
     }
 
@@ -65,7 +70,9 @@ public class SysUserController {
     }
 
     @GetMapping("/users")
-    public Result list(SysUserPo po) {
+    public Result list(HttpServletRequest request,SysUserPo po) {
+        //TODO 设置查询权限
+        po.setGrade(((SysUserPo) request.getSession().getAttribute("user")).getGrade());
         List<SysUserPo> list = userService.listAll(po);
         return ResultUtils.success(list);
     }
@@ -90,6 +97,8 @@ public class SysUserController {
      */
     @PostMapping("/user")
     public Result save(SysUserPo po) {
+        //密码使用默认密码，由用户自行修改
+        po.setPassword(CryptographyUtil.md5(password,"fesine"));
         int i = userService.save(po);
         if (i == 1) {
             return ResultUtils.success(ResultEnum.CREATED, po);

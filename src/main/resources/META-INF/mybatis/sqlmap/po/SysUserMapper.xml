@@ -7,7 +7,7 @@
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
 		<result column="nickName" property="nickName"/>
-		<result column="type" property="type"/>
+		<result column="grade" property="grade"/>
 		<result column="email" property="email"/>
 		<result column="cell" property="cell"/>
 		<result column="create_time" property="createTime"/>
@@ -23,7 +23,7 @@
 		username,
 		password,
 		nickName,
-		type,
+		grade,
 		email,
 		cell,
 		create_time,
@@ -48,8 +48,8 @@
 			nickName= #{nickName}
 	           AND 
 		</if>
-		<if test="type != null">
-			type= #{type}
+		<if test="grade != null">
+			grade= #{grade}
 	           AND 
 		</if>
 		<if test="email != null">
@@ -98,8 +98,8 @@
 	<if test="nickName != null">
 		nickName,
 	</if>
-	<if test="type != null">
-		type,
+	<if test="grade != null">
+		grade,
 	</if>
 	<if test="email != null">
 		email,
@@ -127,8 +127,8 @@
 	<if test="nickName != null">
 		#{nickName},
 	</if>
-	<if test="type != null">
-		#{type},
+	<if test="grade != null">
+		#{grade},
 	</if>
 	<if test="email != null">
 		#{email},
@@ -161,8 +161,8 @@
 	<if test="nickName != null">
 		nickName=#{nickName},
 	</if>
-	<if test="type != null">
-		type=#{type},
+	<if test="grade != null">
+		grade=#{grade},
 	</if>
 	<if test="email != null">
 		email=#{email},
@@ -198,8 +198,8 @@
 			<if test="s.nickName != null">
                     nickName=#{s.nickName},
 			</if>
-			<if test="s.type != null">
-                    type=#{s.type},
+			<if test="s.grade != null">
+                    grade=#{s.grade},
 			</if>
 			<if test="s.email != null">
                     email=#{s.email},
@@ -232,8 +232,8 @@
                     nickName=#{w.nickName}
                    AND 
  			</if>
-			<if test="w.type != null">
-                    type=#{w.type}
+			<if test="w.grade != null">
+                    grade=#{w.grade}
                    AND 
  			</if>
 			<if test="w.email != null">

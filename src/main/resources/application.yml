@@ -2,7 +2,7 @@ server:
   port: 8086
   context-path: /school-exam
   #登录验证开关
-  authFlag: true
+  authFlag: false
 
 # mybatis_config
 mybatis:
@@ -47,6 +47,8 @@ spring:
   mvc:
     static-path-pattern: /webapp/**
 
+user:
+  password: 123456
 
 logging:
   file: ${user.home}/logs/school-exam_all.log
