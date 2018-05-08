@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebau.exam.po.SysUserPo">
+	<resultMap id="BaseResultMap" type="cn.edu.hebau.exam.po.SysUserPo">
+		<id column="id" property="id" />
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="nickName" property="nickName"/>
+		<result column="type" property="type"/>
+		<result column="email" property="email"/>
+		<result column="cell" property="cell"/>
+		<result column="create_time" property="createTime"/>
+		<result column="last_update_time" property="lastUpdateTime"/>
+	</resultMap>
+
+	<sql id="Table_Name">
+		t_sys_user
+	</sql>
+
+	<sql id="Base_Column">
+		id,
+		username,
+		password,
+		nickName,
+		type,
+		email,
+		cell,
+		create_time,
+		last_update_time
+	</sql>
+
+	<sql id="Base_Where">
+		<trim suffixOverrides="AND">
+		<if test="id != null">
+			id= #{id}
+	           AND 
+		</if>
+		<if test="username != null">
+			username= #{username}
+	           AND 
+		</if>
+		<if test="password != null">
+			password= #{password}
+	           AND 
+		</if>
+		<if test="nickName != null">
+			nickName= #{nickName}
+	           AND 
+		</if>
+		<if test="type != null">
+			type= #{type}
+	           AND 
+		</if>
+		<if test="email != null">
+			email= #{email}
+	           AND 
+		</if>
+		<if test="cell != null">
+			cell= #{cell}
+	           AND 
+		</if>
+		<if test="createTime != null">
+			create_time= #{createTime}
+	           AND 
+		</if>
+		<if test="lastUpdateTime != null">
+			last_update_time= #{lastUpdateTime}
+		</if>
+		</trim>
+	</sql>
+	
+    <sql id="Base_Select">
+			select
+		<include refid="Base_Column" />
+		from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</sql>
+
+
+
+	<insert id="insert" >
+		insert into
+		<include refid="Table_Name" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		id,
+	</if>
+	<if test="username != null">
+		username,
+	</if>
+	<if test="password != null">
+		password,
+	</if>
+	<if test="nickName != null">
+		nickName,
+	</if>
+	<if test="type != null">
+		type,
+	</if>
+	<if test="email != null">
+		email,
+	</if>
+	<if test="cell != null">
+		cell,
+	</if>
+	<if test="createTime != null">
+		create_time,
+	</if>
+	<if test="lastUpdateTime != null">
+		last_update_time,
+	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		#{id},
+	</if>
+	<if test="username != null">
+		#{username},
+	</if>
+	<if test="password != null">
+		#{password},
+	</if>
+	<if test="nickName != null">
+		#{nickName},
+	</if>
+	<if test="type != null">
+		#{type},
+	</if>
+	<if test="email != null">
+		#{email},
+	</if>
+	<if test="cell != null">
+		#{cell},
+	</if>
+	<if test="createTime != null">
+		#{createTime},
+	</if>
+	<if test="lastUpdateTime != null">
+		#{lastUpdateTime},
+	</if>
+		</trim>
+	</insert>
+
+	<update id="update" >
+		update
+		<include refid="Table_Name" />
+		<set>
+	<if test="id != null">
+		id=#{id},
+	</if>
+	<if test="username != null">
+		username=#{username},
+	</if>
+	<if test="password != null">
+		password=#{password},
+	</if>
+	<if test="nickName != null">
+		nickName=#{nickName},
+	</if>
+	<if test="type != null">
+		type=#{type},
+	</if>
+	<if test="email != null">
+		email=#{email},
+	</if>
+	<if test="cell != null">
+		cell=#{cell},
+	</if>
+	<if test="createTime != null">
+		create_time=#{createTime},
+	</if>
+	<if test="lastUpdateTime != null">
+		last_update_time=#{lastUpdateTime},
+	</if>
+		</set>
+		<where>
+		<trim prefix="(" suffix=")" suffixOverrides="AND">
+			id=#{id}
+			AND
+		</trim>
+		</where>
+	</update>
+
+	<update id="updateByEntity" >
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<if test="s.username != null">
+                    username=#{s.username},
+			</if>
+			<if test="s.password != null">
+                    password=#{s.password},
+			</if>
+			<if test="s.nickName != null">
+                    nickName=#{s.nickName},
+			</if>
+			<if test="s.type != null">
+                    type=#{s.type},
+			</if>
+			<if test="s.email != null">
+                    email=#{s.email},
+			</if>
+			<if test="s.cell != null">
+                    cell=#{s.cell},
+			</if>
+			<if test="s.createTime != null">
+                    create_time=#{s.createTime},
+			</if>
+			<if test="s.lastUpdateTime != null">
+                    last_update_time=#{s.lastUpdateTime}
+			</if>
+		</set>
+		<where> 
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+			<if test="w.id != null">
+                    id=#{w.id}
+                   AND 
+ 			</if>
+			<if test="w.username != null">
+                    username=#{w.username}
+                   AND 
+ 			</if>
+			<if test="w.password != null">
+                    password=#{w.password}
+                   AND 
+ 			</if>
+			<if test="w.nickName != null">
+                    nickName=#{w.nickName}
+                   AND 
+ 			</if>
+			<if test="w.type != null">
+                    type=#{w.type}
+                   AND 
+ 			</if>
+			<if test="w.email != null">
+                    email=#{w.email}
+                   AND 
+ 			</if>
+			<if test="w.cell != null">
+                    cell=#{w.cell}
+                   AND 
+ 			</if>
+			<if test="w.createTime != null">
+                    create_time=#{w.createTime}
+                   AND 
+ 			</if>
+			<if test="w.lastUpdateTime != null">
+                    last_update_time=#{w.lastUpdateTime}
+ 			</if>
+			</trim>
+		</where>
+	</update>
+
+	<delete id="delete" >
+		delete from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</delete>
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		select count(1) from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</select>
+
+	<select id="selectOne"  resultMap="BaseResultMap">
+	  <include refid="Base_Select" />
+	</select>
+
+	<select id="selectList"  resultMap="BaseResultMap">
+	    <include refid="Base_Select" />
+	</select>
+
+     <select id="selectForUpdate" resultMap="BaseResultMap" useCache="false">
+		 <include refid="Base_Select" />
+		for update
+	</select>
+	
+
+</mapper>

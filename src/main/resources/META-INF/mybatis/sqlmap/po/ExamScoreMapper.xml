@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebau.exam.po.ExamScorePo">
+	<resultMap id="BaseResultMap" type="cn.edu.hebau.exam.po.ExamScorePo">
+		<id column="id" property="id" />
+		<result column="stu_no" property="stuNo"/>
+		<result column="exam_id" property="examId"/>
+		<result column="score" property="score"/>
+	</resultMap>
+
+	<sql id="Table_Name">
+		t_exam_score
+	</sql>
+
+	<sql id="Base_Column">
+		id,
+		stu_no,
+		exam_id,
+		score
+	</sql>
+
+	<sql id="Base_Where">
+		<trim suffixOverrides="AND">
+		<if test="id != null">
+			id= #{id}
+	           AND 
+		</if>
+		<if test="stuNo != null">
+			stu_no= #{stuNo}
+	           AND 
+		</if>
+		<if test="examId != null">
+			exam_id= #{examId}
+	           AND 
+		</if>
+		<if test="score != null">
+			score= #{score}
+		</if>
+		</trim>
+	</sql>
+	
+    <sql id="Base_Select">
+			select
+		<include refid="Base_Column" />
+		from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</sql>
+
+
+
+	<insert id="insert" >
+		insert into
+		<include refid="Table_Name" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		id,
+	</if>
+	<if test="stuNo != null">
+		stu_no,
+	</if>
+	<if test="examId != null">
+		exam_id,
+	</if>
+	<if test="score != null">
+		score,
+	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		#{id},
+	</if>
+	<if test="stuNo != null">
+		#{stuNo},
+	</if>
+	<if test="examId != null">
+		#{examId},
+	</if>
+	<if test="score != null">
+		#{score},
+	</if>
+		</trim>
+	</insert>
+
+	<update id="update" >
+		update
+		<include refid="Table_Name" />
+		<set>
+	<if test="id != null">
+		id=#{id},
+	</if>
+	<if test="stuNo != null">
+		stu_no=#{stuNo},
+	</if>
+	<if test="examId != null">
+		exam_id=#{examId},
+	</if>
+	<if test="score != null">
+		score=#{score},
+	</if>
+		</set>
+		<where>
+		<trim prefix="(" suffix=")" suffixOverrides="AND">
+			id=#{id}
+			AND
+		</trim>
+		</where>
+	</update>
+
+	<update id="updateByEntity" >
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<if test="s.stuNo != null">
+                    stu_no=#{s.stuNo},
+			</if>
+			<if test="s.examId != null">
+                    exam_id=#{s.examId},
+			</if>
+			<if test="s.score != null">
+                    score=#{s.score}
+			</if>
+		</set>
+		<where> 
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+			<if test="w.id != null">
+                    id=#{w.id}
+                   AND 
+ 			</if>
+			<if test="w.stuNo != null">
+                    stu_no=#{w.stuNo}
+                   AND 
+ 			</if>
+			<if test="w.examId != null">
+                    exam_id=#{w.examId}
+                   AND 
+ 			</if>
+			<if test="w.score != null">
+                    score=#{w.score}
+ 			</if>
+			</trim>
+		</where>
+	</update>
+
+	<delete id="delete" >
+		delete from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</delete>
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		select count(1) from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</select>
+
+	<select id="selectOne"  resultMap="BaseResultMap">
+	  <include refid="Base_Select" />
+	</select>
+
+	<select id="selectList"  resultMap="BaseResultMap">
+	    <include refid="Base_Select" />
+	</select>
+
+     <select id="selectForUpdate" resultMap="BaseResultMap" useCache="false">
+		 <include refid="Base_Select" />
+		for update
+	</select>
+	
+
+</mapper>

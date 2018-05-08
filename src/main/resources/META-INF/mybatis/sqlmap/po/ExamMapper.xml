@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebau.exam.po.ExamPo">
+	<resultMap id="BaseResultMap" type="cn.edu.hebau.exam.po.ExamPo">
+		<id column="id" property="id" />
+		<result column="exam_type" property="examType"/>
+		<result column="grade_id" property="gradeId"/>
+		<result column="course_id" property="courseId"/>
+		<result column="start_time" property="startTime"/>
+		<result column="end_time" property="endTime"/>
+	</resultMap>
+
+	<sql id="Table_Name">
+		t_exam
+	</sql>
+
+	<sql id="Base_Column">
+		id,
+		exam_type,
+		grade_id,
+		course_id,
+		start_time,
+		end_time
+	</sql>
+
+	<sql id="Base_Where">
+		<trim suffixOverrides="AND">
+		<if test="id != null">
+			id= #{id}
+	           AND 
+		</if>
+		<if test="examType != null">
+			exam_type= #{examType}
+	           AND 
+		</if>
+		<if test="gradeId != null">
+			grade_id= #{gradeId}
+	           AND 
+		</if>
+		<if test="courseId != null">
+			course_id= #{courseId}
+	           AND 
+		</if>
+		<if test="startTime != null">
+			start_time= #{startTime}
+	           AND 
+		</if>
+		<if test="endTime != null">
+			end_time= #{endTime}
+		</if>
+		</trim>
+	</sql>
+	
+    <sql id="Base_Select">
+			select
+		<include refid="Base_Column" />
+		from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</sql>
+
+
+
+	<insert id="insert" >
+		insert into
+		<include refid="Table_Name" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		id,
+	</if>
+	<if test="examType != null">
+		exam_type,
+	</if>
+	<if test="gradeId != null">
+		grade_id,
+	</if>
+	<if test="courseId != null">
+		course_id,
+	</if>
+	<if test="startTime != null">
+		start_time,
+	</if>
+	<if test="endTime != null">
+		end_time,
+	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		#{id},
+	</if>
+	<if test="examType != null">
+		#{examType},
+	</if>
+	<if test="gradeId != null">
+		#{gradeId},
+	</if>
+	<if test="courseId != null">
+		#{courseId},
+	</if>
+	<if test="startTime != null">
+		#{startTime},
+	</if>
+	<if test="endTime != null">
+		#{endTime},
+	</if>
+		</trim>
+	</insert>
+
+	<update id="update" >
+		update
+		<include refid="Table_Name" />
+		<set>
+	<if test="id != null">
+		id=#{id},
+	</if>
+	<if test="examType != null">
+		exam_type=#{examType},
+	</if>
+	<if test="gradeId != null">
+		grade_id=#{gradeId},
+	</if>
+	<if test="courseId != null">
+		course_id=#{courseId},
+	</if>
+	<if test="startTime != null">
+		start_time=#{startTime},
+	</if>
+	<if test="endTime != null">
+		end_time=#{endTime},
+	</if>
+		</set>
+		<where>
+		<trim prefix="(" suffix=")" suffixOverrides="AND">
+			id=#{id}
+			AND
+		</trim>
+		</where>
+	</update>
+
+	<update id="updateByEntity" >
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<if test="s.examType != null">
+                    exam_type=#{s.examType},
+			</if>
+			<if test="s.gradeId != null">
+                    grade_id=#{s.gradeId},
+			</if>
+			<if test="s.courseId != null">
+                    course_id=#{s.courseId},
+			</if>
+			<if test="s.startTime != null">
+                    start_time=#{s.startTime},
+			</if>
+			<if test="s.endTime != null">
+                    end_time=#{s.endTime}
+			</if>
+		</set>
+		<where> 
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+			<if test="w.id != null">
+                    id=#{w.id}
+                   AND 
+ 			</if>
+			<if test="w.examType != null">
+                    exam_type=#{w.examType}
+                   AND 
+ 			</if>
+			<if test="w.gradeId != null">
+                    grade_id=#{w.gradeId}
+                   AND 
+ 			</if>
+			<if test="w.courseId != null">
+                    course_id=#{w.courseId}
+                   AND 
+ 			</if>
+			<if test="w.startTime != null">
+                    start_time=#{w.startTime}
+                   AND 
+ 			</if>
+			<if test="w.endTime != null">
+                    end_time=#{w.endTime}
+ 			</if>
+			</trim>
+		</where>
+	</update>
+
+	<delete id="delete" >
+		delete from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</delete>
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		select count(1) from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</select>
+
+	<select id="selectOne"  resultMap="BaseResultMap">
+	  <include refid="Base_Select" />
+	</select>
+
+	<select id="selectList"  resultMap="BaseResultMap">
+	    <include refid="Base_Select" />
+	</select>
+
+     <select id="selectForUpdate" resultMap="BaseResultMap" useCache="false">
+		 <include refid="Base_Select" />
+		for update
+	</select>
+	
+
+</mapper>

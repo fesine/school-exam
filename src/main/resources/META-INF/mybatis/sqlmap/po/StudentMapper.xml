@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebau.exam.po.StudentPo">
+	<resultMap id="BaseResultMap" type="cn.edu.hebau.exam.po.StudentPo">
+		<id column="id" property="id" />
+		<result column="stu_no" property="stuNo"/>
+		<result column="stu_name" property="stuName"/>
+		<result column="stu_sex" property="stuSex"/>
+		<result column="stu_birthday" property="stuBirthday"/>
+		<result column="stu_cell" property="stuCell"/>
+		<result column="stu_address" property="stuAddress"/>
+		<result column="stu_email" property="stuEmail"/>
+		<result column="grade_id" property="gradeId"/>
+		<result column="classroom_id" property="classroomId"/>
+		<result column="create_time" property="createTime"/>
+		<result column="last_update_time" property="lastUpdateTime"/>
+	</resultMap>
+
+	<sql id="Table_Name">
+		t_student
+	</sql>
+
+	<sql id="Base_Column">
+		id,
+		stu_no,
+		stu_name,
+		stu_sex,
+		stu_birthday,
+		stu_cell,
+		stu_address,
+		stu_email,
+		grade_id,
+		classroom_id,
+		create_time,
+		last_update_time
+	</sql>
+
+	<sql id="Base_Where">
+		<trim suffixOverrides="AND">
+		<if test="id != null">
+			id= #{id}
+	           AND 
+		</if>
+		<if test="stuNo != null">
+			stu_no= #{stuNo}
+	           AND 
+		</if>
+		<if test="stuName != null">
+			stu_name= #{stuName}
+	           AND 
+		</if>
+		<if test="stuSex != null">
+			stu_sex= #{stuSex}
+	           AND 
+		</if>
+		<if test="stuBirthday != null">
+			stu_birthday= #{stuBirthday}
+	           AND 
+		</if>
+		<if test="stuCell != null">
+			stu_cell= #{stuCell}
+	           AND 
+		</if>
+		<if test="stuAddress != null">
+			stu_address= #{stuAddress}
+	           AND 
+		</if>
+		<if test="stuEmail != null">
+			stu_email= #{stuEmail}
+	           AND 
+		</if>
+		<if test="gradeId != null">
+			grade_id= #{gradeId}
+	           AND 
+		</if>
+		<if test="classroomId != null">
+			classroom_id= #{classroomId}
+	           AND 
+		</if>
+		<if test="createTime != null">
+			create_time= #{createTime}
+	           AND 
+		</if>
+		<if test="lastUpdateTime != null">
+			last_update_time= #{lastUpdateTime}
+		</if>
+		</trim>
+	</sql>
+	
+    <sql id="Base_Select">
+			select
+		<include refid="Base_Column" />
+		from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</sql>
+
+
+
+	<insert id="insert" >
+		insert into
+		<include refid="Table_Name" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		id,
+	</if>
+	<if test="stuNo != null">
+		stu_no,
+	</if>
+	<if test="stuName != null">
+		stu_name,
+	</if>
+	<if test="stuSex != null">
+		stu_sex,
+	</if>
+	<if test="stuBirthday != null">
+		stu_birthday,
+	</if>
+	<if test="stuCell != null">
+		stu_cell,
+	</if>
+	<if test="stuAddress != null">
+		stu_address,
+	</if>
+	<if test="stuEmail != null">
+		stu_email,
+	</if>
+	<if test="gradeId != null">
+		grade_id,
+	</if>
+	<if test="classroomId != null">
+		classroom_id,
+	</if>
+	<if test="createTime != null">
+		create_time,
+	</if>
+	<if test="lastUpdateTime != null">
+		last_update_time,
+	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		#{id},
+	</if>
+	<if test="stuNo != null">
+		#{stuNo},
+	</if>
+	<if test="stuName != null">
+		#{stuName},
+	</if>
+	<if test="stuSex != null">
+		#{stuSex},
+	</if>
+	<if test="stuBirthday != null">
+		#{stuBirthday},
+	</if>
+	<if test="stuCell != null">
+		#{stuCell},
+	</if>
+	<if test="stuAddress != null">
+		#{stuAddress},
+	</if>
+	<if test="stuEmail != null">
+		#{stuEmail},
+	</if>
+	<if test="gradeId != null">
+		#{gradeId},
+	</if>
+	<if test="classroomId != null">
+		#{classroomId},
+	</if>
+	<if test="createTime != null">
+		#{createTime},
+	</if>
+	<if test="lastUpdateTime != null">
+		#{lastUpdateTime},
+	</if>
+		</trim>
+	</insert>
+
+	<update id="update" >
+		update
+		<include refid="Table_Name" />
+		<set>
+	<if test="id != null">
+		id=#{id},
+	</if>
+	<if test="stuNo != null">
+		stu_no=#{stuNo},
+	</if>
+	<if test="stuName != null">
+		stu_name=#{stuName},
+	</if>
+	<if test="stuSex != null">
+		stu_sex=#{stuSex},
+	</if>
+	<if test="stuBirthday != null">
+		stu_birthday=#{stuBirthday},
+	</if>
+	<if test="stuCell != null">
+		stu_cell=#{stuCell},
+	</if>
+	<if test="stuAddress != null">
+		stu_address=#{stuAddress},
+	</if>
+	<if test="stuEmail != null">
+		stu_email=#{stuEmail},
+	</if>
+	<if test="gradeId != null">
+		grade_id=#{gradeId},
+	</if>
+	<if test="classroomId != null">
+		classroom_id=#{classroomId},
+	</if>
+	<if test="createTime != null">
+		create_time=#{createTime},
+	</if>
+	<if test="lastUpdateTime != null">
+		last_update_time=#{lastUpdateTime},
+	</if>
+		</set>
+		<where>
+		<trim prefix="(" suffix=")" suffixOverrides="AND">
+			id=#{id}
+			AND
+		</trim>
+		</where>
+	</update>
+
+	<update id="updateByEntity" >
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<if test="s.stuNo != null">
+                    stu_no=#{s.stuNo},
+			</if>
+			<if test="s.stuName != null">
+                    stu_name=#{s.stuName},
+			</if>
+			<if test="s.stuSex != null">
+                    stu_sex=#{s.stuSex},
+			</if>
+			<if test="s.stuBirthday != null">
+                    stu_birthday=#{s.stuBirthday},
+			</if>
+			<if test="s.stuCell != null">
+                    stu_cell=#{s.stuCell},
+			</if>
+			<if test="s.stuAddress != null">
+                    stu_address=#{s.stuAddress},
+			</if>
+			<if test="s.stuEmail != null">
+                    stu_email=#{s.stuEmail},
+			</if>
+			<if test="s.gradeId != null">
+                    grade_id=#{s.gradeId},
+			</if>
+			<if test="s.classroomId != null">
+                    classroom_id=#{s.classroomId},
+			</if>
+			<if test="s.createTime != null">
+                    create_time=#{s.createTime},
+			</if>
+			<if test="s.lastUpdateTime != null">
+                    last_update_time=#{s.lastUpdateTime}
+			</if>
+		</set>
+		<where> 
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+			<if test="w.id != null">
+                    id=#{w.id}
+                   AND 
+ 			</if>
+			<if test="w.stuNo != null">
+                    stu_no=#{w.stuNo}
+                   AND 
+ 			</if>
+			<if test="w.stuName != null">
+                    stu_name=#{w.stuName}
+                   AND 
+ 			</if>
+			<if test="w.stuSex != null">
+                    stu_sex=#{w.stuSex}
+                   AND 
+ 			</if>
+			<if test="w.stuBirthday != null">
+                    stu_birthday=#{w.stuBirthday}
+                   AND 
+ 			</if>
+			<if test="w.stuCell != null">
+                    stu_cell=#{w.stuCell}
+                   AND 
+ 			</if>
+			<if test="w.stuAddress != null">
+                    stu_address=#{w.stuAddress}
+                   AND 
+ 			</if>
+			<if test="w.stuEmail != null">
+                    stu_email=#{w.stuEmail}
+                   AND 
+ 			</if>
+			<if test="w.gradeId != null">
+                    grade_id=#{w.gradeId}
+                   AND 
+ 			</if>
+			<if test="w.classroomId != null">
+                    classroom_id=#{w.classroomId}
+                   AND 
+ 			</if>
+			<if test="w.createTime != null">
+                    create_time=#{w.createTime}
+                   AND 
+ 			</if>
+			<if test="w.lastUpdateTime != null">
+                    last_update_time=#{w.lastUpdateTime}
+ 			</if>
+			</trim>
+		</where>
+	</update>
+
+	<delete id="delete" >
+		delete from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</delete>
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		select count(1) from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</select>
+
+	<select id="selectOne"  resultMap="BaseResultMap">
+	  <include refid="Base_Select" />
+	</select>
+
+	<select id="selectList"  resultMap="BaseResultMap">
+	    <include refid="Base_Select" />
+	</select>
+
+     <select id="selectForUpdate" resultMap="BaseResultMap" useCache="false">
+		 <include refid="Base_Select" />
+		for update
+	</select>
+	
+
+</mapper>

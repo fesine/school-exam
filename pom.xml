@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>cn.edu.hebau.exam</groupId>
-	<artifactId>exam</artifactId>
+	<artifactId>school-exam</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>exam</name>
+	<name>school-exam</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

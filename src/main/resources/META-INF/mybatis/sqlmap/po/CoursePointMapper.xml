@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebau.exam.po.CoursePointPo">
+	<resultMap id="BaseResultMap" type="cn.edu.hebau.exam.po.CoursePointPo">
+		<id column="id" property="id" />
+		<result column="course_id" property="courseId"/>
+		<result column="course_point" property="coursePoint"/>
+	</resultMap>
+
+	<sql id="Table_Name">
+		t_course_point
+	</sql>
+
+	<sql id="Base_Column">
+		id,
+		course_id,
+		course_point
+	</sql>
+
+	<sql id="Base_Where">
+		<trim suffixOverrides="AND">
+		<if test="id != null">
+			id= #{id}
+	           AND 
+		</if>
+		<if test="courseId != null">
+			course_id= #{courseId}
+	           AND 
+		</if>
+		<if test="coursePoint != null">
+			course_point= #{coursePoint}
+		</if>
+		</trim>
+	</sql>
+	
+    <sql id="Base_Select">
+			select
+		<include refid="Base_Column" />
+		from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</sql>
+
+
+
+	<insert id="insert" >
+		insert into
+		<include refid="Table_Name" />
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		id,
+	</if>
+	<if test="courseId != null">
+		course_id,
+	</if>
+	<if test="coursePoint != null">
+		course_point,
+	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	<if test="id != null">
+		#{id},
+	</if>
+	<if test="courseId != null">
+		#{courseId},
+	</if>
+	<if test="coursePoint != null">
+		#{coursePoint},
+	</if>
+		</trim>
+	</insert>
+
+	<update id="update" >
+		update
+		<include refid="Table_Name" />
+		<set>
+	<if test="id != null">
+		id=#{id},
+	</if>
+	<if test="courseId != null">
+		course_id=#{courseId},
+	</if>
+	<if test="coursePoint != null">
+		course_point=#{coursePoint},
+	</if>
+		</set>
+		<where>
+		<trim prefix="(" suffix=")" suffixOverrides="AND">
+			id=#{id}
+			AND
+		</trim>
+		</where>
+	</update>
+
+	<update id="updateByEntity" >
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<if test="s.courseId != null">
+                    course_id=#{s.courseId},
+			</if>
+			<if test="s.coursePoint != null">
+                    course_point=#{s.coursePoint}
+			</if>
+		</set>
+		<where> 
+			<trim prefix="(" suffix=")" suffixOverrides="AND">
+			<if test="w.id != null">
+                    id=#{w.id}
+                   AND 
+ 			</if>
+			<if test="w.courseId != null">
+                    course_id=#{w.courseId}
+                   AND 
+ 			</if>
+			<if test="w.coursePoint != null">
+                    course_point=#{w.coursePoint}
+ 			</if>
+			</trim>
+		</where>
+	</update>
+
+	<delete id="delete" >
+		delete from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</delete>
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		select count(1) from
+		<include refid="Table_Name" />
+		<where>
+			<include refid="Base_Where" />
+		</where>
+	</select>
+
+	<select id="selectOne"  resultMap="BaseResultMap">
+	  <include refid="Base_Select" />
+	</select>
+
+	<select id="selectList"  resultMap="BaseResultMap">
+	    <include refid="Base_Select" />
+	</select>
+
+     <select id="selectForUpdate" resultMap="BaseResultMap" useCache="false">
+		 <include refid="Base_Select" />
+		for update
+	</select>
+	
+
+</mapper>
