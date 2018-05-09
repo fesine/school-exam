@@ -60,6 +60,7 @@ public class SysUserController {
         }
         map.put("user", tempPo);
         request.getSession().setAttribute("user", tempPo);
+        request.getSession().setAttribute("grade", tempPo.getGrade());
         return ResultUtils.success(map);
     }
 
@@ -72,7 +73,7 @@ public class SysUserController {
     @GetMapping("/users")
     public Result list(HttpServletRequest request,SysUserPo po) {
         //TODO 设置查询权限
-        po.setGrade(((SysUserPo) request.getSession().getAttribute("user")).getGrade());
+        po.setGrade((Integer) request.getSession().getAttribute("grade"));
         List<SysUserPo> list = userService.listAll(po);
         return ResultUtils.success(list);
     }
@@ -114,6 +115,22 @@ public class SysUserController {
      */
     @PutMapping("/user/{id}")
     public Result update(@PathVariable Integer id, SysUserPo po) {
+        int i = userService.update(po);
+        if (i == 1) {
+            return ResultUtils.success(ResultEnum.CREATED, po);
+        }
+        throw new ExamException(ResultEnum.INVALID_REQUEST);
+    }
+
+    /**
+     * 修改管理员信息
+     *
+     * @param po
+     * @return
+     */
+    @PutMapping("/user/password/{id}")
+    public Result changePassword(@PathVariable Integer id, SysUserPo po) {
+        po.setPassword(CryptographyUtil.md5(po.getPassword(), "fesine"));
         int i = userService.update(po);
         if (i == 1) {
             return ResultUtils.success(ResultEnum.CREATED, po);

@@ -3,7 +3,6 @@ package cn.edu.hebau.exam.controller;
 import cn.edu.hebau.exam.dto.SysMenuDto;
 import cn.edu.hebau.exam.exception.ExamException;
 import cn.edu.hebau.exam.po.SysMenuPo;
-import cn.edu.hebau.exam.po.SysUserPo;
 import cn.edu.hebau.exam.service.SysMenuService;
 import com.fesine.commons.entity.Result;
 import com.fesine.commons.enums.ResultEnum;
@@ -97,7 +96,7 @@ public class SysMenuController {
 
     @GetMapping("/menus/{id}")
     public Result listMenu(HttpServletRequest request,@PathVariable Integer id) {
-        Integer grade = ((SysUserPo)request.getSession().getAttribute("user")).getGrade();
+        Integer grade = (Integer) request.getSession().getAttribute("grade");
         if (null !=request.getSession().getAttribute("menuList")){
             return ResultUtils.success(request.getSession().getAttribute("menuList"));
         }
@@ -114,7 +113,7 @@ public class SysMenuController {
         po.setGrade(grade);
         po.addOrderBy(Order.asc("order_no"));
         //根节点
-        List<SysMenuPo> list = service.listMenu(po);
+        List<SysMenuPo> list = service.listAll(po);
         if (CollectionUtils.isNotEmpty(list)) {
             for (SysMenuPo menuPo : list) {
                 dto = new SysMenuDto();
@@ -122,7 +121,7 @@ public class SysMenuController {
                 BeanUtils.copyProperties(menuPo, dto);
                 dto.setId(menuPo.getMenuId());
                 //查看子节点
-                List<SysMenuDto> subDtoList = listByPid(menuPo.getId(),grade);
+                List<SysMenuDto> subDtoList = listByPid(menuPo.getId(), grade);
                 dto.setChildren(subDtoList);
                 dtoList.add(dto);
             }

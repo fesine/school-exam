@@ -49,7 +49,7 @@
 	           AND 
 		</if>
 		<if test="grade != null">
-			grade= #{grade}
+			grade &lt;= #{grade}
 	           AND 
 		</if>
 		<if test="email != null">
