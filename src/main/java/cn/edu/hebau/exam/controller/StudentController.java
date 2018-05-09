@@ -10,16 +10,16 @@ import cn.edu.hebau.exam.service.GradeService;
 import cn.edu.hebau.exam.service.StudentService;
 import com.fesine.commons.entity.Result;
 import com.fesine.commons.enums.ResultEnum;
+import com.fesine.commons.util.DateUtils;
 import com.fesine.commons.util.ResultUtils;
 import com.fesine.dao.model.Order;
 import com.fesine.dao.model.QueryResult;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -42,23 +42,44 @@ public class StudentController {
     @Autowired
     private ClassroomService classroomService;
 
+    private static final String dateFormStr = "yyyy年MM月dd日";
+
+    public static Map<Integer, String> gradeMap = new HashMap<>();
+    public static Map<Integer, String> classroomMap = new HashMap<>();
+
+
 
     @PostMapping("/student")
-    public Result add(StudentPo po) {
-        int i = service.save(po);
-        if (i != 1) {
+    public Result add(StudentPo po, @RequestParam String dateStr) {
+        try {
+            po.setStuNo(this.genStuNo());
+            Date date = DateUtils.formatString(dateStr, dateFormStr);
+            po.setStuBirthday(date);
+            int i = service.save(po);
+            if (i != 1) {
+                throw new ExamException(ResultEnum.INVALID_REQUEST);
+            }
+            return ResultUtils.success(ResultEnum.CREATED, po);
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new ExamException(ResultEnum.INVALID_REQUEST);
         }
-        return ResultUtils.success(ResultEnum.CREATED,po);
     }
 
     @PutMapping("/student/{id}")
-    public Result update(@PathVariable Integer id,StudentPo po) {
-        int i = service.update(po);
-        if (i != 1) {
+    public Result update(@PathVariable Integer id, StudentPo po, @RequestParam String dateStr) {
+        try {
+            Date date = DateUtils.formatString(dateStr, dateFormStr);
+            po.setStuBirthday(date);
+            int i = service.update(po);
+            if (i != 1) {
+                throw new ExamException(ResultEnum.INVALID_REQUEST);
+            }
+            return ResultUtils.success(ResultEnum.CREATED, po);
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new ExamException(ResultEnum.INVALID_REQUEST);
         }
-        return ResultUtils.success(ResultEnum.CREATED,po);
     }
 
     @DeleteMapping("/student/{id}")
@@ -69,7 +90,7 @@ public class StudentController {
         if (i != 1) {
             throw new ExamException(ResultEnum.INVALID_REQUEST);
         }
-        return ResultUtils.success(ResultEnum.DELETED,po);
+        return ResultUtils.success(ResultEnum.DELETED, po);
     }
 
     @DeleteMapping("/students/{ids}")
@@ -99,16 +120,35 @@ public class StudentController {
             , @RequestParam(defaultValue = "1") Integer page
             , @RequestParam(defaultValue = "10") Integer limit) {
         po.addOrderBy(Order.asc("stu_no"));
+        if (StringUtils.isNotEmpty(po.getStuNo())) {
+            po.setStuNo("%".concat(po.getStuNo()).concat("%"));
+        }else{
+            po.setStuNo(null);
+        }
+        if (StringUtils.isNotEmpty(po.getStuName())) {
+            po.setStuName("%".concat(po.getStuName()).concat("%"));
+        } else {
+            po.setStuName(null);
+        }
         QueryResult<StudentPo> list = service.listPage(po, page, limit);
         Map<String, Object> map = new HashMap<>();
+        if (list.getTotalRecord() == 0) {
+            map.put("totalRecord", 0);
+            map.put("resultList", null);
+            return ResultUtils.success(map);
+        }
         map.put("totalRecord", list.getTotalRecord());
-        List<GradePo> gradePoList = gradeService.listAll(new GradePo());
-        List<ClassroomPo> classroomList = classroomService.listAll(new ClassroomPo());
-        Map<Integer,String> gradeMap = gradePoList.stream().collect(Collectors.toMap
-                (GradePo::getId, GradePo::getGradeName));
-        Map<Integer,String> classroomMap = classroomList.stream().collect(Collectors.toMap
-                (ClassroomPo::getId, ClassroomPo::getClassroomName));
-        List<StudentDto> studentDtoList = list.getResultList().stream().map(temp ->{
+        if(gradeMap.size() == 0){
+            List<GradePo> gradePoList = gradeService.listAll(new GradePo());
+            gradeMap = gradePoList.stream().collect(Collectors.toMap
+                    (GradePo::getId, GradePo::getGradeName));
+        }
+        if(classroomMap.size() == 0 ){
+            List<ClassroomPo> classroomList = classroomService.listAll(new ClassroomPo());
+            classroomMap = classroomList.stream().collect(Collectors.toMap
+                    (ClassroomPo::getId, ClassroomPo::getClassroomName));
+        }
+        List<StudentDto> studentDtoList = list.getResultList().stream().map(temp -> {
             StudentDto dto = new StudentDto();
             BeanUtils.copyProperties(temp, dto);
             dto.setGradeName(gradeMap.get(dto.getGradeId()));
@@ -117,6 +157,28 @@ public class StudentController {
         }).collect(Collectors.toList());
         map.put("resultList", studentDtoList);
         return ResultUtils.success(map);
+    }
+
+    /**
+     * 2018000001
+     *
+     * @return
+     */
+    private String genStuNo() {
+        StudentPo po = new StudentPo();
+        po.addOrderBy(Order.desc("stu_no"));
+        QueryResult<StudentPo> result = service.listPage(po, 1, 1);
+        int num;
+        if (result.getTotalRecord() == 0) {
+            num = 1;
+        } else {
+            String stuNo = (result.getResultList().get(0).getStuNo()).substring(4);
+            num = Integer.parseInt(stuNo) + 1;
+        }
+        String str = String.format("%06d", num);
+        Calendar date = Calendar.getInstance();
+        String year = String.valueOf(date.get(Calendar.YEAR));
+        return year + str;
     }
 
 

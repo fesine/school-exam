@@ -43,11 +43,11 @@
 	           AND 
 		</if>
 		<if test="stuNo != null">
-			stu_no= #{stuNo}
+			stu_no like #{stuNo}
 	           AND 
 		</if>
 		<if test="stuName != null">
-			stu_name= #{stuName}
+			stu_name like #{stuName}
 	           AND 
 		</if>
 		<if test="stuSex != null">

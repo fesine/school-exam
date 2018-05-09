@@ -67,12 +67,15 @@ public class SysUserController {
     @GetMapping("/user/logout")
     public Result logout(HttpServletRequest request) {
         request.getSession().invalidate();
+        //清空缓存信息
+        StudentController.gradeMap.clear();
+        StudentController.classroomMap.clear();
+        ExamController.courseMap.clear();
         return ResultUtils.success();
     }
 
     @GetMapping("/users")
     public Result list(HttpServletRequest request,SysUserPo po) {
-        //TODO 设置查询权限
         po.setGrade((Integer) request.getSession().getAttribute("grade"));
         List<SysUserPo> list = userService.listAll(po);
         return ResultUtils.success(list);
