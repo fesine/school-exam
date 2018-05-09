@@ -29,7 +29,7 @@
 	           AND 
 		</if>
 		<if test="coursePoint != null">
-			course_point= #{coursePoint}
+			course_point like #{coursePoint}
 		</if>
 		</trim>
 	</sql>

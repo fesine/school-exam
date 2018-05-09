@@ -71,6 +71,7 @@ public class SysUserController {
         StudentController.gradeMap.clear();
         StudentController.classroomMap.clear();
         ExamController.courseMap.clear();
+        CoursePointController.courseGradeMap.clear();
         return ResultUtils.success();
     }
 
