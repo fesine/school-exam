@@ -142,7 +142,9 @@ public class CoursePointController {
             BeanUtils.copyProperties(temp, dto);
             //根据课程号获取课程名
             dto.setCourseName(ExamController.courseMap.get(dto.getCourseId()));
+            //根据课程号获取年级号
             dto.setGradeId(courseGradeMap.get(dto.getCourseId()));
+            //根据年级号获取年级名称
             dto.setGradeName(StudentController.gradeMap.get(dto.getGradeId()));
             return dto;
         }).collect(Collectors.toList());

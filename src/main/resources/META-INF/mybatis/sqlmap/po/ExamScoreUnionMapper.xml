@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebau.exam.po.ExamScoreUnionPo">
+	<resultMap id="BaseResultMap" type="cn.edu.hebau.exam.po.ExamScoreUnionPo">
+		<id column="id" property="id" />
+		<result column="stu_no" property="stuNo"/>
+		<result column="exam_id" property="examId"/>
+		<result column="score" property="score"/>
+		<result column="stu_name" property="stuName"/>
+		<result column="grade_id" property="gradeId"/>
+		<result column="classroom_id" property="classroomId"/>
+		<result column="course_id" property="courseId"/>
+		<result column="grade_name" property="gradeName"/>
+		<result column="classroom_name" property="classroomName"/>
+		<result column="course_name" property="courseName"/>
+		<result column="start_time" property="startTime"/>
+		<result column="end_time" property="endTime"/>
+	</resultMap>
+
+	<sql id="Base_Where">
+		<trim suffixOverrides="AND">
+		<if test="id != null">
+			id= #{id}
+	           AND 
+		</if>
+		<if test="stuNo != null">
+			stu_no= #{stuNo}
+	           AND 
+		</if>
+		<if test="examId != null">
+			exam_id= #{examId}
+	           AND 
+		</if>
+		<if test="score != null">
+			score= #{score}
+		</if>
+		</trim>
+	</sql>
+	
+    <sql id="Base_Select">
+		SELECT
+		sc.id,
+		sc.stu_no,
+		sc.exam_id,
+		sc.score,
+		s.stu_name,
+		s.grade_id,
+		s.classroom_id,
+		e.course_id,
+		e.start_time,
+		e.end_time,
+		cr.course_name,
+		g.grade_name,
+		c.classroom_name
+		FROM
+		t_exam_score sc
+		LEFT JOIN t_student s ON sc.stu_no = s.stu_no
+		LEFT JOIN t_exam e ON sc.exam_id = e.id
+		LEFT JOIN t_course cr ON e.course_id = cr.id
+		LEFT JOIN t_grade g ON s.grade_id = g.id
+		LEFT JOIN t_classroom c ON s.classroom_id = c.id
+		<where>
+			<trim suffixOverrides="AND">
+				<if test="stuNo != null">
+					s.stu_no= #{stuNo}
+					AND
+				</if>
+				<if test="stuName != null">
+					s.stu_name= #{stuName}
+					AND
+				</if>
+				<if test="gradeId != null">
+					s.grade_id= #{gradeId}
+					AND
+				</if>
+				<if test="classroomId != null">
+					s.classroom_id= #{classroomId}
+					AND
+				</if>
+				<if test="courseId != null">
+					e.course_id= #{courseId}
+				</if>
+			</trim>
+		</where>
+	</sql>
+
+	<select id="selectOne"  resultMap="BaseResultMap">
+	  <include refid="Base_Select" />
+	</select>
+
+	<select id="selectList"  resultMap="BaseResultMap">
+	    <include refid="Base_Select" />
+	</select>
+
+
+</mapper>
