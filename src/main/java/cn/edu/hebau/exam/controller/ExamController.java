@@ -124,6 +124,7 @@ public class ExamController {
     public Result list(ExamPo po
             , @RequestParam(defaultValue = "1") Integer page
             , @RequestParam(defaultValue = "10") Integer limit) {
+        po.addOrderBy(Order.asc("grade_id"));
         po.addOrderBy(Order.desc("start_time"));
         QueryResult<ExamPo> list = service.listPage(po, page, limit);
         Map<String, Object> map = new HashMap<>();

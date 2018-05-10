@@ -1,4 +1,5 @@
 package cn.edu.hebau.exam.controller;
+
 import cn.edu.hebau.exam.dto.CoursePointDto;
 import cn.edu.hebau.exam.exception.ExamException;
 import cn.edu.hebau.exam.po.CoursePo;
@@ -123,19 +124,17 @@ public class CoursePointController {
             return ResultUtils.success(map);
         }
         map.put("totalRecord", list.getTotalRecord());
-        if(StudentController.gradeMap.size() == 0){
+        if (StudentController.gradeMap.size() == 0) {
             List<GradePo> gradePoList = gradeService.listAll(new GradePo());
             StudentController.gradeMap = gradePoList.stream().collect(Collectors.toMap
                     (GradePo::getId, GradePo::getGradeName));
         }
-        if(ExamController.courseMap.size() == 0 ){
+        if (ExamController.courseMap.size() == 0 || courseGradeMap.size() == 0) {
             List<CoursePo> courseList = courseService.listAll(new CoursePo());
             ExamController.courseMap = courseList.stream().collect(Collectors.toMap
                     (CoursePo::getId, CoursePo::getCourseName));
-            if(courseGradeMap.size() == 0){
-                courseGradeMap = courseList.stream().collect(Collectors.toMap
-                        (CoursePo::getId, CoursePo::getGradeId));
-            }
+            courseGradeMap = courseList.stream().collect(Collectors.toMap
+                    (CoursePo::getId, CoursePo::getGradeId));
         }
         List<CoursePointDto> coursePointDtoList = list.getResultList().stream().map(temp -> {
             CoursePointDto dto = new CoursePointDto();
@@ -143,6 +142,9 @@ public class CoursePointController {
             //根据课程号获取课程名
             dto.setCourseName(ExamController.courseMap.get(dto.getCourseId()));
             //根据课程号获取年级号
+            System.out.println(courseGradeMap.size());
+            System.out.println(dto.getCourseId());
+            System.out.println(courseGradeMap.get(dto.getCourseId()));
             dto.setGradeId(courseGradeMap.get(dto.getCourseId()));
             //根据年级号获取年级名称
             dto.setGradeName(StudentController.gradeMap.get(dto.getGradeId()));

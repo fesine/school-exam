@@ -37,7 +37,7 @@
 	           AND 
 		</if>
 		<if test="username != null">
-			username= #{username}
+			username = #{username}
 	           AND 
 		</if>
 		<if test="password != null">
@@ -57,7 +57,7 @@
 	           AND 
 		</if>
 		<if test="cell != null">
-			cell= #{cell}
+			cell like #{cell}
 	           AND 
 		</if>
 		<if test="createTime != null">

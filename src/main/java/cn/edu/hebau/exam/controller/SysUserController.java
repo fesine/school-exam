@@ -7,6 +7,7 @@ import com.fesine.commons.entity.Result;
 import com.fesine.commons.enums.ResultEnum;
 import com.fesine.commons.util.CryptographyUtil;
 import com.fesine.commons.util.ResultUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +76,27 @@ public class SysUserController {
         return ResultUtils.success();
     }
 
+    @GetMapping("/user/clear")
+    public Result clear(HttpServletRequest request) {
+        //清空缓存信息
+        StudentController.gradeMap.clear();
+        StudentController.classroomMap.clear();
+        ExamController.courseMap.clear();
+        CoursePointController.courseGradeMap.clear();
+        request.getSession().setAttribute("menuList", null);
+        return ResultUtils.success();
+    }
+
     @GetMapping("/users")
     public Result list(HttpServletRequest request,SysUserPo po) {
+        if(StringUtils.isEmpty(po.getUsername())){
+            po.setUsername(null);
+        }
+        if (StringUtils.isEmpty(po.getCell())) {
+            po.setCell(null);
+        } else {
+            po.setCell("%".concat(po.getCell()).concat("%"));
+        }
         po.setGrade((Integer) request.getSession().getAttribute("grade"));
         List<SysUserPo> list = userService.listAll(po);
         return ResultUtils.success(list);

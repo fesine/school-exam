@@ -32,28 +32,29 @@ public class ExamScoreController {
     private ExamScoreUnionService unionService;
 
 
-    private static final String dateFormStr = "yyyy-MM-dd HH:mm:ss";
-
-
-
-
-
     @PostMapping("/examScore")
     public Result add(ExamScorePo po) {
-            int i = service.save(po);
-            if (i != 1) {
-                throw new ExamException(ResultEnum.INVALID_REQUEST);
-            }
-            return ResultUtils.success(ResultEnum.CREATED, po);
+        ExamScorePo addPo = new ExamScorePo();
+        addPo.setExamId(po.getExamId());
+        addPo.setStuNo(po.getStuNo());
+        addPo = service.get(addPo);
+        if (addPo != null){
+            throw new ExamException(ResultEnum.INVALID_REQUEST.getCode(),"成绩已存在!");
+        }
+        int i = service.save(po);
+        if (i != 1) {
+            throw new ExamException(ResultEnum.INVALID_REQUEST);
+        }
+        return ResultUtils.success(ResultEnum.CREATED, po);
     }
 
     @PutMapping("/examScore/{id}")
     public Result update(@PathVariable Integer id, ExamScorePo po) {
-            int i = service.update(po);
-            if (i != 1) {
-                throw new ExamException(ResultEnum.INVALID_REQUEST);
-            }
-            return ResultUtils.success(ResultEnum.CREATED, po);
+        int i = service.update(po);
+        if (i != 1) {
+            throw new ExamException(ResultEnum.INVALID_REQUEST);
+        }
+        return ResultUtils.success(ResultEnum.CREATED, po);
     }
 
     @DeleteMapping("/examScore/{id}")
@@ -91,6 +92,7 @@ public class ExamScoreController {
 
     /**
      * 获取分数
+     *
      * @param po
      * @param page
      * @param limit
@@ -102,10 +104,10 @@ public class ExamScoreController {
             , @RequestParam(defaultValue = "10") Integer limit) {
         po.addOrderBy(Order.desc("sc.exam_id"));
         po.addOrderBy(Order.asc("sc.stu_no"));
-        if(StringUtils.isEmpty(po.getStuNo())){
+        if (StringUtils.isEmpty(po.getStuNo())) {
             po.setStuNo(null);
         }
-        if(StringUtils.isEmpty(po.getStuName())){
+        if (StringUtils.isEmpty(po.getStuName())) {
             po.setStuName(null);
         }
         //examId stuNo score
