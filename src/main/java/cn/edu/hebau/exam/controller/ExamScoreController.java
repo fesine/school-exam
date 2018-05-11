@@ -11,8 +11,15 @@ import com.fesine.commons.util.ResultUtils;
 import com.fesine.dao.model.Order;
 import com.fesine.dao.model.QueryResult;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @description: 类描述
@@ -38,8 +45,8 @@ public class ExamScoreController {
         addPo.setExamId(po.getExamId());
         addPo.setStuNo(po.getStuNo());
         addPo = service.get(addPo);
-        if (addPo != null){
-            throw new ExamException(ResultEnum.INVALID_REQUEST.getCode(),"成绩已存在!");
+        if (addPo != null) {
+            throw new ExamException(ResultEnum.INVALID_REQUEST.getCode(), "成绩已存在!");
         }
         int i = service.save(po);
         if (i != 1) {
@@ -113,6 +120,110 @@ public class ExamScoreController {
         //examId stuNo score
         QueryResult<ExamScoreUnionPo> list = unionService.listPage(po, page, limit);
         return ResultUtils.success(list);
+    }
+
+    @GetMapping("/studentScores")
+    public Result studentScores(ExamScoreUnionPo po
+            , @RequestParam(defaultValue = "1") Integer page
+            , @RequestParam(defaultValue = "10") Integer limit) {
+        if (null == po.getGradeId()) {
+            throw new ExamException(ResultEnum.INVALID_REQUEST.getCode(),"请选择年级查询!");
+        }
+        if (StringUtils.isEmpty(po.getStuNo())) {
+            po.setStuNo(null);
+        }
+        if (StringUtils.isEmpty(po.getStuName())) {
+            po.setStuName(null);
+        }
+        //examId stuNo score
+        QueryResult<ExamScoreUnionPo> list = unionService.selectListByStuNo(ExamScoreUnionPo.class
+                .getName() + ".selectListByStuNo", po, page, limit);
+        List<ExamScoreUnionPo> listPo = list.getResultList();
+        List<ExamScoreUnionPo> newPoList = new ArrayList<>();
+        for (int i = 0; i < listPo.size(); i++) {
+            ExamScoreUnionPo newPo = new ExamScoreUnionPo();
+            BeanUtils.copyProperties(listPo.get(i), newPo);
+            //获取年级排名 （page-1）*limit+i+1
+            newPo.setRowNo((page-1)*limit+i+1);
+            newPo.setAvg(newPo.getAvg().setScale(2, BigDecimal.ROUND_HALF_UP));
+            newPoList.add(newPo);
+        }
+        list.setResultList(newPoList);
+        return ResultUtils.success(list);
+    }
+
+    /**
+     * 获取学生综合排名信息
+     * @param po
+     * @return
+     */
+    @GetMapping("/studentScoresByStuNo")
+    public Result studentScoresByStuNo(ExamScoreUnionPo po) {
+        //年级排名
+        int gradeNo=1;
+        //班级排名
+        int classroomNo=1;
+        int type = 2;
+        String msg = "各科成绩较平衡，请继续保持!";
+        ExamScoreUnionPo queryPo = new ExamScoreUnionPo();
+        queryPo.setGradeId(po.getGradeId());
+        List<ExamScoreUnionPo> allList = unionService.selectListByStuNo(ExamScoreUnionPo.class
+                .getName() + ".selectListByStuNo",queryPo);
+        ExamScoreUnionPo checkPo;
+        for (int i = 0; i < allList.size(); i++) {
+            checkPo = allList.get(i);
+            if(!checkPo.getStuNo().equals(po.getStuNo())){
+                gradeNo++;
+                if (checkPo.getClassroomId().equals(po.getClassroomId())) {
+                    classroomNo++;
+                }
+            } else {
+                //是当前学生成绩，分析成绩
+                int chinese = checkPo.getChinese();
+                int math = checkPo.getMath();
+                int english = checkPo.getEnglish();
+                boolean chineseFlag = false;
+                boolean mathFlag = false;
+                boolean englishFlag = false;
+                if (chinese < 60) {
+                    chineseFlag = true;
+                }
+                if (math < 60) {
+                    mathFlag = true;
+                }
+                if (english < 60) {
+                    englishFlag = true;
+                }
+                if (chineseFlag && mathFlag && englishFlag) {
+                    msg = "该生全科成绩较差，建议认真学习!";
+                    type = 3;
+                }else if (chineseFlag && mathFlag) {
+                    msg = "该生语文、数学成绩较差，建议加强语文、数学知识学习!";
+                    type = 3;
+                }else if (chineseFlag && englishFlag) {
+                    msg = "该生语文、英语成绩较差，建议加强语文、英语知识学习!";
+                    type = 3;
+                }else if (mathFlag && englishFlag) {
+                    msg = "该生数学、英语成绩较差，建议加强数学、英语知识学习!";
+                    type = 3;
+                } else if (chineseFlag) {
+                    msg = "该生语文成绩较差，建议加强语文知识学习!";
+                } else if (mathFlag) {
+                    msg = "该生数学成绩较差，建议加强数学知识学习!";
+                } else if (englishFlag) {
+                    msg = "该生英语成绩较差，建议加强英语知识学习!";
+                } else {
+                    type = 1;
+                }
+                break;
+            }
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("gradeNo", "第"+gradeNo+"名");
+        map.put("classroomNo", "第" + classroomNo + "名");
+        map.put("msg", msg);
+        map.put("type", type);
+        return ResultUtils.success(map);
     }
 
 }

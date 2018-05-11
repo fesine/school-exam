@@ -1,7 +1,9 @@
 package cn.edu.hebau.exam.po;
+
 import com.fesine.dao.BasePo;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -65,6 +67,39 @@ public class ExamScoreUnionPo extends BasePo {
 	 * 课程名称
 	 */
 	private String courseName;
+	/**
+	 * 语文成绩
+	 */
+	private Integer chinese;
+	/**
+	 * 数学成绩
+	 */
+	private Integer math;
+	/**
+	 * 英语成绩
+	 */
+	private Integer english;
+	/**
+	 * 物理成绩
+	 */
+	private Integer physics;
+	/**
+	 * 化学成绩
+	 */
+	private Integer chemistry;
+	/**
+	 * 总成绩
+	 */
+	private int sum;
+	/**
+	 * 平均成绩
+	 */
+	private BigDecimal avg;
+
+	/**
+	 * 排名
+	 */
+	private int rowNo;
 
 	
 
